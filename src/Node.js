@@ -201,7 +201,7 @@ class Node {
             this.rightNode.setCoordinates();
         }
     }
-    delete(value) {
+    delete(value) {////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         if (this.value === value) {
           // Node to be deleted is found
     
@@ -343,6 +343,86 @@ class Node {
             return this.rightNode.search(value);
         }
     }
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    detachValue(value) {
+        if (this.value === value) {
+          // Node to be detached is found
+      
+          // Case 1: Node is a leaf node (no children)
+          if (!this.leftNode && !this.rightNode) {
+            if (this.parent) {
+              // Node has a parent, update the parent's reference
+              if (this.parent.leftNode === this) {
+                this.parent.leftNode = null;
+              } else if (this.parent.rightNode === this) {
+                this.parent.rightNode = null;
+              }
+            } else {
+              // Node is the root node
+              this.value = null; // Reset the node value
+            }
+          }
+      
+          // Case 2: Node has only one child (left or right)
+          else if (this.leftNode && !this.rightNode) {
+            if (this.parent) {
+              // Node has a parent, update the parent's reference
+              if (this.parent.leftNode === this) {
+                this.parent.leftNode = this.leftNode;
+              } else if (this.parent.rightNode === this) {
+                this.parent.rightNode = this.leftNode;
+              }
+              this.leftNode.parent = this.parent; // Update the child's parent reference
+            } else {
+              // Node is the root node
+              this.leftNode.parent = null; // Update the child's parent reference
+              return this.leftNode; // Return the new root node
+            }
+          } else if (!this.leftNode && this.rightNode) {
+            if (this.parent) {
+              // Node has a parent, update the parent's reference
+              if (this.parent.leftNode === this) {
+                this.parent.leftNode = this.rightNode;
+              } else if (this.parent.rightNode === this) {
+                this.parent.rightNode = this.rightNode;
+              }
+              this.rightNode.parent = this.parent; // Update the child's parent reference
+            } else {
+              // Node is the root node
+              this.rightNode.parent = null; // Update the child's parent reference
+              return this.rightNode; // Return the new root node
+            }
+          }
+      
+          // Case 3: Node has two children
+          else {
+            // Find the minimum value node in the right subtree
+            let minNode = this.rightNode.findMin();
+      
+            // Replace the value of the node to be detached with the minimum value
+            this.value = minNode.value;
+      
+            // Recursively detach the minimum value node from the right subtree
+            this.rightNode = this.rightNode.detachValue(minNode.value);
+          }
+      
+          return this;
+        }
+      
+        // If the value is smaller, go to the left subtree
+        if (value < this.value && this.leftNode) {
+          this.leftNode = this.leftNode.detachValue(value);
+        }
+      
+        // If the value is larger, go to the right subtree
+        if (value > this.value && this.rightNode) {
+          this.rightNode = this.rightNode.detachValue(value);
+        }
+      
+        return this;
+      }
+      
+
 
     // Draws this node's upper level edge, if the node has a parent
     drawEdge() {

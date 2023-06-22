@@ -59,43 +59,55 @@ class Tree {
   
       this.draw();
     }
-    _deleteValueRecursive(node, value) {
-        if (node === null) {
-          return null; // Value not found
-        }
-      
-        if (value < node.value) {
-          // Value is smaller, go to the left subtree
-          node.left = this._deleteValueRecursive(node.left, value);
-        } else if (value > node.value) {
-          // Value is larger, go to the right subtree
-          node.right = this._deleteValueRecursive(node.right, value);
-        } else {
-          // Value found, perform deletion
-          if (node.left === null && node.right === null) {
-            // Case 1: Node is a leaf, no children
-            return null;
-          } else if (node.left === null) {
-            // Case 2: Node has only a right child
-            return node.right;
-          } else if (node.right === null) {
-            // Case 3: Node has only a left child
-            return node.left;
-          } else {
-            // Case 4: Node has both left and right children
-            // Find the minimum value in the right subtree (smallest value greater than the node)
-            const successor = this._findMinValueNode(node.right);
-            node.value = successor.value;
-      
-            // Delete the minimum value node from the right subtree
-            node.right = this._deleteValueRecursive(node.right, successor.value);
-          }
-        }
-      
-        return node;
-      }
+  // Deletes a specific value from the tree//////////////////////////////////////////////////////////////////////////////////////
+  deleteValue(value) {
+    this.root = this._deleteValue(this.root, value);
+    this.draw();
+  }
+  _deleteValue(node, value) {
+    if (node === null) {
+      return null; // Value not found
+    }
 
- 
+    if (value < node.value) {
+      // Value is smaller, go to the left subtree
+      node.left = this._deleteValue(node.left, value);
+    } else if (value > node.value) {
+      // Value is larger, go to the right subtree
+      node.right = this._deleteValue(node.right, value);
+    } else {
+      // Value found, perform deletion
+      if (node.left === null && node.right === null) {
+        // Case 1: Node is a leaf, no children
+        return null;
+      } else if (node.left === null) {
+        // Case 2: Node has only a right child
+        return node.right;
+      } else if (node.right === null) {
+        // Case 3: Node has only a left child
+        return node.left;
+      } else {
+        // Case 4: Node has both left and right children
+        // Find the minimum value in the right subtree (smallest value greater than the node)
+        const successor = this._findMinValueNode(node.right);
+        node.value = successor.value;
+
+        // Delete the minimum value node from the right subtree
+        node.right = this._deleteValue(node.right, successor.value);
+      }
+    }
+
+    return node;
+  }
+    // Finds the minimum value node in a subtree
+    _findMinValueNode(node) {
+        let current = node;
+        while (current.left !== null) {
+          current = current.left;
+        }
+        return current;
+      }
+    
    
   
     // Wraps the Node class's addValue method, and sets the coordinate of the
@@ -364,6 +376,8 @@ tree.printTree(); // Implement a method to print the tree structure
 
 // Delete a specific value from the tree
 tree.deleteValue(5);
+tree.deleteValue(3);
+
 
 // Display the tree after deletion
 console.log("Tree after deletion:");
