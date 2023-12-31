@@ -1,4 +1,4 @@
-*Binary Tree Visualization*
+#Binary Tree Visualization#
 
 Visualize binary trees with this interactive web application powered by p5.js.
 
