@@ -11,7 +11,7 @@ This project is a binary tree visualization tool that allows users to interactiv
     <li>Adjustable animation speed.</li>
 </ol>
 
-<H2>Getting Started</H2>
+# # Getting Started
 <h2>Prerequisites</h2>
 Before you begin, ensure you have the following installed:
 <ul>
