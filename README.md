@@ -1,7 +1,7 @@
 # Binary Tree Visualization
 Visualize binary trees with this interactive web application powered by p5.js.
 
-<H2>Introduction</H2>
+# # Introduction<
 This project is a binary tree visualization tool that allows users to interactively explore and manipulate binary tree structures. It uses p5.js for rendering and comes with a set of controls for easy navigation.
 <h2>Features</h2>
 <ol>
